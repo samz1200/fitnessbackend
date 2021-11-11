@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import fs from 'fs';
+import https from 'https'
 //const express = require('express'); // 1 - with latest npm we can use import statments
 // go in package.json and add type: module 
 // Step 2 ------------>>>>>>>> Routing
@@ -47,7 +49,10 @@ const PORT = process.env.PORT || '8080'; //2 - get the port from env file, if no
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }).then(() => {
     // we need .then becausew
     //it returns a promise 
-    app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
+https.createServer({
+  key: fs.readFileSync('localhost-key.pem'),
+  cert: fs.readFileSync('localhost.pem')
+}, app).listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 }).catch((error) => {
     console.log('Error:', error.message)
 })
