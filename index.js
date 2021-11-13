@@ -2,14 +2,16 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import fs from 'fs';
-import https from 'https'
+
+
+
 //const express = require('express'); // 1 - with latest npm we can use import statments
 // go in package.json and add type: module 
 // Step 2 ------------>>>>>>>> Routing
 import Routes from './server/route.js';
 import gymRouters from './server/gymroutes.js';
 import gymOptionroute from './server/gymoptionrouters.js';
+import sendMailRoute from './server/sendmails.js';
 
 const app = express(); // we need to do this with every express application to initilise it with app and then we run 
 // it as a fuction
@@ -25,6 +27,7 @@ app.use(cors());
 app.use('/users', Routes);
 app.use('/gymaddeds', gymRouters);
 app.use('/gyms', gymOptionroute);
+app.use('/sendmails', sendMailRoute);
 
 // https://www.mongodb.com/cloud/atlas
 // const USERNAME = process.env.USERNAME;
@@ -49,10 +52,7 @@ const PORT = process.env.PORT || '8080'; //2 - get the port from env file, if no
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }).then(() => {
     // we need .then becausew
     //it returns a promise 
-https.createServer({
-  key: fs.readFileSync('localhost-key.pem'),
-  cert: fs.readFileSync('localhost.pem')
-}, app).listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
+    app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`))
 }).catch((error) => {
     console.log('Error:', error.message)
 })

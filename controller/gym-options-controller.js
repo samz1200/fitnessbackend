@@ -4,16 +4,34 @@ import GymOption from '../model/gymoption.js';
 export const addGymOption = async (request, response) => {
     // retreive the info of user from frontend
     const gymArray = request.body;
-    
-    const newGymArray = new GymOption(gymArray);
-    console.log(newGymArray);
+
+
+    // const newGymArray = new GymOption(gymArray);
+    // console.log(GymOption);
     try {
-        await newGymArray.save();
-        response.status(201).json(newGymArray);
+        await GymOption.findOneAndUpdate({}, {
+            $addToSet: {
+                option: gymArray
+            }
+        })
+        response.status(201).json("newGymArray");
     } catch (error) {
         response.status(409).json({ message: error.message });
     }
 }
+
+// export const addGymOption = async (request, response) => {
+//     const gymArray = request.body;
+
+//     const newGymArray = new GymOption(gymArray);
+//     console.log(GymOption);
+//     try {
+//         await newGymArray.save();
+//         response.status(201).json(newGymArray);
+//     } catch (error) {
+//         response.status(409).json({ message: error.message });
+//     }
+// }
 
 export const getGymOption = async (request, response) => {
     // Step -1 // Test API
