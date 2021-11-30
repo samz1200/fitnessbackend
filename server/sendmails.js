@@ -11,7 +11,7 @@ sendMailRoute.post('/mailsend', (request, response) => {
         service: 'gmail',
         auth: {
             user: 'rizwanullah1200300@gmail.com',
-            pass: 'Pakistan@.123'
+            pass: 'Pakistan@.890'
         }
     });
 
@@ -27,6 +27,7 @@ sendMailRoute.post('/mailsend', (request, response) => {
             if (error) {
                 console.log(error);
             } else {
+                response.status(200).json(info.response);
                 console.log('Email sent: ' + info.response);
             }
         });

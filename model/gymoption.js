@@ -3,7 +3,8 @@ import autoIncrement from 'mongoose-auto-increment';
 
 // how our document look like
 const gymOptionSchema = mongoose.Schema({
-    option: [String],
+    price: Number,
+    value: String,
 });
 
 autoIncrement.initialize(mongoose.connection);
